@@ -12,8 +12,7 @@ source "googlecompute" "imagebuilder" {
   source_image_family         = "ubuntu-2204-lts"
   zone                        = "us-central1-a"
   ssh_username                = "root"
-  omit_external_ip            = true
-  use_internal_ip             = true
+  use_iap                     = true
 }
 
 build {
