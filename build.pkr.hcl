@@ -11,7 +11,8 @@ source "googlecompute" "imagebuilder" {
   project_id                  = "image-builder-dev"
   source_image_family         = "ubuntu-2204-lts"
   zone                        = "us-central1-a"
-  ssh_username                = "root"
+  image_name                  = "test-image"
+  ssh_username                = "imagebuilder"
   use_iap                     = true
 }
 
