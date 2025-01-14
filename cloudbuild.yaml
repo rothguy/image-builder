@@ -10,7 +10,7 @@ steps:
     - '.'
     env:
     - 'PKR_VAR_project_id=$PROJECT_ID'
-    - 'PKR_VAR_image_name=$_BUILD_IMAGE_NAME'
+    - 'PKR_VAR_image_name=${_BUILD_IMAGE_NAME}'
     - 'PKR_VAR_zone=${_ZONE}'
     - 'PKR_VAR_source_image_family=${_SOURCE_IMAGE_FAMILY}'
   - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
@@ -20,8 +20,16 @@ steps:
     - '.'
     env:
     - 'PKR_VAR_project_id=$PROJECT_ID'
-    - 'PKR_VAR_image_name=$_BUILD_IMAGE_NAME'
+    - 'PKR_VAR_image_name=${_BUILD_IMAGE_NAME}'
     - 'PKR_VAR_zone=${_ZONE}'
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    args:
+    - 'gcloud'
+    - 'compute'
+    - 'images'
+    - 'add-labels'
+    - '${_BUILD_IMAGE_NAME}'
+    - '--labels=tested=true'
 substitutions:
     _SOURCE_IMAGE_FAMILY: default_yaml_source_image_family
     _ZONE: default_yaml_zone
