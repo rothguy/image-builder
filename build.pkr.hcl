@@ -27,6 +27,7 @@ source "googlecompute" "test" {
 }
 
 build {
+  name = "build"
   sources = ["sources.googlecompute.build"]
 
   provisioner "shell" {
@@ -35,6 +36,7 @@ build {
 }
 
 build {
+  name = "test"
   sources = ["sources.googlecompute.test"]
 
   provisioner "shell" {

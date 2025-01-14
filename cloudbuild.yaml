@@ -1,0 +1,17 @@
+steps:
+  - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
+    args:
+      - init
+      - build.pkr.hcl
+  - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
+    args:
+      - build
+      - '-only="build.googlecompute.build"'
+      - build.pkr.hcl
+  - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
+    args:
+      - build
+      - '-only="test.googlecompute.test"'
+      - build.pkr.hcl
+options:
+  logging: CLOUD_LOGGING_ONLY
