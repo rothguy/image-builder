@@ -20,6 +20,6 @@ build {
   sources = ["sources.googlecompute.test"]
 
   provisioner "shell" {
-    inline = "ls -la"
+    inline = ["ls -la"]
   }
 }
