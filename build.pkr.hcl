@@ -44,7 +44,7 @@ build {
   }
 
   post-processor "shell-local" {
-    inline = ["echo 'output_image_name = \"{local.image_name}\"' >> output_image_name.auto.pkrvars.hcl"]
+    inline = ["echo 'output_image_name = \"${local.image_name}\"' > output.auto.pkrvars.hcl"]
   }
 }
 
