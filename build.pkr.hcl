@@ -38,11 +38,7 @@ source "googlecompute" "test" {
 build {
   name = "build"
   sources = ["sources.googlecompute.build"]
-
-  provisioner "shell" {
-    script = "install-redis.sh"
-  }
-
+  
   post-processor "shell-local" {
     inline = ["echo 'output_image_name = \"${local.image_name}\"' > output.auto.pkrvars.hcl"]
   }
