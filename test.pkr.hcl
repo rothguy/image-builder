@@ -1,3 +1,7 @@
+variable "source_image" {
+  type = string
+}
+
 packer {
   required_plugins {
     googlecompute = {
