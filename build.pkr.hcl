@@ -17,10 +17,27 @@ source "googlecompute" "build" {
   use_iap                     = true
 }
 
+source "googlecompute" "test" {
+  project_id                  = "image-builder-dev"
+  source_image                = "my-image"
+  zone                        = "us-central1-a"
+  ssh_username                = "imagebuilder"
+  use_iap                     = true
+  skip_create_image           = true
+}
+
 build {
   sources = ["sources.googlecompute.build"]
 
   provisioner "shell" {
     script = "install-redis.sh"
+  }
+}
+
+build {
+  sources = ["sources.googlecompute.test"]
+
+  provisioner "shell" {
+    inline = ["ls -la"]
   }
 }
