@@ -19,4 +19,8 @@ source "googlecompute" "imagebuilder" {
 
 build {
   sources = ["sources.googlecompute.imagebuilder"]
+
+  provisioner "shell" {
+    script = "install-redis.sh"
+  }
 }
