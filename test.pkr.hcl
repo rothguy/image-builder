@@ -9,7 +9,7 @@ packer {
 
 source "googlecompute" "test" {
   project_id                  = "image-builder-dev"
-  source_image                = var.source-image
+  source_image                = var.source_image
   zone                        = "us-central1-a"
   ssh_username                = "imagebuilder"
   use_iap                     = true
