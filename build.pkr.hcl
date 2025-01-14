@@ -2,6 +2,11 @@ locals {
   image_name = "my-image-{{timestamp}}"
 }
 
+variable output_image_name {
+  type    = string
+  default = "default_output_image_name"
+}
+
 packer {
   required_plugins {
     googlecompute = {
@@ -23,7 +28,7 @@ source "googlecompute" "build" {
 
 source "googlecompute" "test" {
   project_id                  = "image-builder-dev"
-  source_image                = local.image_name
+  source_image                = var.output_image_name
   zone                        = "us-central1-a"
   ssh_username                = "imagebuilder"
   use_iap                     = true
@@ -36,6 +41,10 @@ build {
 
   provisioner "shell" {
     script = "install-redis.sh"
+  }
+
+  post-processor "shell-local" {
+    inline = ["echo 'output_image_name = \"{local.image_name}\"' >> output_image_name.auto.pkrvars.hcl"]
   }
 }
 
