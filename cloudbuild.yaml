@@ -10,8 +10,9 @@ steps:
     - '.'
     env:
     - 'PKR_VAR_project_id=$PROJECT_ID'
-    - 'PKR_VAR_zone=us-central1-a'
-    - 'PKR_VAR_source_image_family=ubuntu-2204-lts'
+    - 'PKR_VAR_image_name=$SHORT_SHA'
+    - 'PKR_VAR_zone=${_ZONE}'
+    - 'PKR_VAR_source_image_family=${_SOURCE_IMAGE_FAMILY}'
   - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
     args:
     - 'build'
@@ -19,6 +20,10 @@ steps:
     - '.'
     env:
     - 'PKR_VAR_project_id=$PROJECT_ID'
-    - 'PKR_VAR_zone=us-central1-a'
+    - 'PKR_VAR_image_name=$SHORT_SHA'
+    - 'PKR_VAR_zone=${_ZONE}'
+substitutions:
+    _SOURCE_IMAGE_FAMILY: default_yaml_source_image_family
+    _ZONE: default_yaml_zone
 options:
   logging: CLOUD_LOGGING_ONLY

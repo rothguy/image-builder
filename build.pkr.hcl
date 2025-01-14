@@ -1,27 +1,21 @@
-# Used to define the image name in the build step.
-locals {
-  image_name = "my-image-{{timestamp}}"
-}
-
-# Automatically loaded from output.auto.pkrvars.hcl for the test step.
-variable built_image_name {
-  type    = string
-  default = "default_built_image_name"
-}
-
 variable project_id {
   type = string
-  default = "default_project_id"
+  default = "default_hcl_project_id"
 }
 
 variable zone {
   type = string
-  default = "default_zone"
+  default = "default_hcl_zone"
 }
 
 variable source_image_family {
   type = string
-  default = "default_source_image_family"
+  default = "default_hcl_source_image_family"
+}
+
+variable image_name {
+  type = string
+  default = "default_hcl_image_name"
 }
 
 packer {
@@ -37,14 +31,14 @@ source "googlecompute" "build" {
   project_id                  = var.project_id
   source_image_family         = var.source_image_family
   zone                        = var.zone
-  image_name                  = local.image_name
+  image_name                  = var.image_name
   ssh_username                = "imagebuilder"
   use_iap                     = true
 }
 
 source "googlecompute" "test" {
   project_id                  = var.project_id
-  source_image                = var.built_image_name
+  source_image                = var.image_name
   zone                        = var.zone
   ssh_username                = "imagebuilder"
   use_iap                     = true
@@ -54,10 +48,6 @@ source "googlecompute" "test" {
 build {
   name = "build"
   sources = ["sources.googlecompute.build"]
-
-  post-processor "shell-local" {
-    inline = ["echo 'built_image_name = \"${local.image_name}\"' >> output.auto.pkrvars.hcl"]
-  }
 }
 
 build {
