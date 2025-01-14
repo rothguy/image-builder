@@ -1,9 +1,24 @@
 steps:
   - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
-    args: ['init', '.']
+    args:
+    - 'init'
+    - '.'
   - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
-    args: ['build', '-only=build.*', '.']
+    args:
+    - 'build'
+    - '-only=build.*'
+    - '.'
+    env:
+    - 'PKR_VAR_project_id=$PROJECT_ID'
+    - 'PKR_VAR_zone=us-central1-a'
+    - 'PKR_VAR_source_image_family=ubuntu-2204-lts'
   - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
-    args: ['build', '-only=test.*', '.']
+    args:
+    - 'build'
+    - '-only=test.*'
+    - '.'
+    env:
+    - 'PKR_VAR_project_id=$PROJECT_ID'
+    - 'PKR_VAR_zone=us-central1-a'
 options:
   logging: CLOUD_LOGGING_ONLY

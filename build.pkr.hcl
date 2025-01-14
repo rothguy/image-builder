@@ -9,6 +9,21 @@ variable built_image_name {
   default = "default_built_image_name"
 }
 
+variable project_id {
+  type = string
+  default = "default_project_id"
+}
+
+variable zone {
+  type = string
+  default = "default_zone"
+}
+
+variable source_image_family {
+  type = string
+  default = "default_source_image_family"
+}
+
 packer {
   required_plugins {
     googlecompute = {
@@ -19,19 +34,18 @@ packer {
 }
 
 source "googlecompute" "build" {
-  project_id                  = "image-builder-dev"
-  source_image_family         = "ubuntu-2204-lts"
-  zone                        = "us-central1-a"
+  project_id                  = var.project_id
+  source_image_family         = var.source_image_family
+  zone                        = var.zone
   image_name                  = local.image_name
-  image_description           = "New image description"
   ssh_username                = "imagebuilder"
   use_iap                     = true
 }
 
 source "googlecompute" "test" {
-  project_id                  = "image-builder-dev"
+  project_id                  = var.project_id
   source_image                = var.built_image_name
-  zone                        = "us-central1-a"
+  zone                        = var.zone
   ssh_username                = "imagebuilder"
   use_iap                     = true
   skip_create_image           = true
