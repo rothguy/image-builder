@@ -25,7 +25,7 @@ steps:
 substitutions:
     _SOURCE_IMAGE_FAMILY: default_yaml_source_image_family
     _ZONE: default_yaml_zone
-    _IMAGE_NAME: default_yaml_image_name
+    _IMAGE_NAME: default-yaml-image-name
     _BUILD_IMAGE_NAME: ${_IMAGE_NAME}-${SHORT_SHA}
 options:
   logging: CLOUD_LOGGING_ONLY

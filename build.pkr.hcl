@@ -15,7 +15,7 @@ variable source_image_family {
 
 variable image_name {
   type = string
-  default = "default_hcl_image_name"
+  default = "default-hcl-image-name"
 }
 
 packer {
