@@ -6,7 +6,7 @@ steps:
   - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
     args:
       - build
-      - '-only="googlecompute.test"'
+      - -only='test.*'
       - build.pkr.hcl
 options:
   logging: CLOUD_LOGGING_ONLY
