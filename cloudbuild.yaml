@@ -1,9 +1,11 @@
 steps:
-  - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
+  - id: 'initialize'
+    name: 'us-central1-docker.pkg.dev/image-builder-dev/packer/packer'
     args:
     - 'init'
     - '.'
-  - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
+  - id: 'build-image'
+    name: 'us-central1-docker.pkg.dev/image-builder-dev/packer/packer'
     args:
     - 'build'
     - '-only=build.*'
@@ -13,7 +15,8 @@ steps:
     - 'PKR_VAR_image_name=${_BUILD_IMAGE_NAME}'
     - 'PKR_VAR_zone=${_ZONE}'
     - 'PKR_VAR_source_image_family=${_SOURCE_IMAGE_FAMILY}'
-  - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
+  - id: 'test-image'
+    name: 'us-central1-docker.pkg.dev/image-builder-dev/packer/packer'
     args:
     - 'build'
     - '-only=test.*'
@@ -22,14 +25,15 @@ steps:
     - 'PKR_VAR_project_id=$PROJECT_ID'
     - 'PKR_VAR_image_name=${_BUILD_IMAGE_NAME}'
     - 'PKR_VAR_zone=${_ZONE}'
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  - id: 'label-image-as-golden'
+    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
     args:
     - 'gcloud'
     - 'compute'
     - 'images'
     - 'add-labels'
     - '${_BUILD_IMAGE_NAME}'
-    - '--labels=tested=true'
+    - '--labels=golden=true'
 substitutions:
     _SOURCE_IMAGE_FAMILY: default_yaml_source_image_family
     _ZONE: default_yaml_zone
