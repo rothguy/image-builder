@@ -1,10 +1,12 @@
+# Used to define the image name in the build step.
 locals {
   image_name = "my-image-{{timestamp}}"
 }
 
-variable output_image_name {
+# Automatically loaded from output.auto.pkrvars.hcl for the test step.
+variable built_image_name {
   type    = string
-  default = "default_output_image_name"
+  default = "default_built_image_name"
 }
 
 packer {
@@ -28,7 +30,7 @@ source "googlecompute" "build" {
 
 source "googlecompute" "test" {
   project_id                  = "image-builder-dev"
-  source_image                = var.output_image_name
+  source_image                = var.built_image_name
   zone                        = "us-central1-a"
   ssh_username                = "imagebuilder"
   use_iap                     = true
@@ -38,9 +40,9 @@ source "googlecompute" "test" {
 build {
   name = "build"
   sources = ["sources.googlecompute.build"]
-  
+
   post-processor "shell-local" {
-    inline = ["echo 'output_image_name = \"${local.image_name}\"' > output.auto.pkrvars.hcl"]
+    inline = ["echo 'built_image_name = \"${local.image_name}\"' >> output.auto.pkrvars.hcl"]
   }
 }
 
