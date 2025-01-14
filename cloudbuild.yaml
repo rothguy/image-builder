@@ -1,9 +1,9 @@
 steps:
   - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
-    args: ['init', 'build.pkr.hcl']
+    args: ['init', '.']
   - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
-    args: ['build', '-only=build.*', 'build.pkr.hcl']
+    args: ['build', '-only=build.*', '.']
   - name: us-central1-docker.pkg.dev/image-builder-dev/packer/packer
-    args: ['build', '-only=test.*', 'build.pkr.hcl']
+    args: ['build', '-only=test.*', '.']
 options:
   logging: CLOUD_LOGGING_ONLY
